@@ -14,25 +14,25 @@ const imageExtensions = new Set([
 //  Function, which output appropriate list and
 //  its values weight
 //
-function showList(map) {
-  const list = {};
-  for (const key of map.keys()) {
-    const value = objToBuffer(map.get(key))
-    list[key] = value.length;
-  }
-  console.log(list);
+/*
+function showList(connection) {
+  connection.callMethod('clientInterface', 'list', [], (err, list) => {
+    console.log(list);
+    for (const [name, data] of list) console.log(
+      `${name}  ${Object.keys(data).length}`
+    );
+  })
 }
-
+*/
 
 //  Function, which parses buffer object to buffer
 //
 //  obj - object ot parse
 //
 function objToBuffer(obj) {
-  const length = Object.keys(obj).length;
-  const arrayBuffer = new ArrayBuffer(length);
-  for (const i in obj) arrayBuffer[i] = obj[i];
-  const buffer = Buffer.from(arrayBuffer);
+  const bytesArray = [];
+  for (const i in obj) bytesArray[i] = obj[i];
+  const buffer = Buffer.from(bytesArray);
   return buffer;
 }
 
@@ -48,7 +48,6 @@ function sendByParts(connection, filename, buf) {
   const parts = [];
   let start = 0, end = MAX_BUFFER_LENGTH;
 
-  console.log(buf.length);
   while (start <= buf.length) {
     const buffer = buf.slice(start, end);
     parts.push([filename, buffer]);
@@ -83,6 +82,9 @@ function sendByParts(connection, filename, buf) {
 function sendFiles(connection, filenames) {
   filenames.forEach(filename => {
     fs.readFile('../test/' + filename, (err, buffer) => {
+
+      console.log(`${buffer.length} B`);
+
       if (err) console.error(err.message);
       else if (buffer.length > MAX_BUFFER_LENGTH) {
         sendByParts(connection, filename, buffer);
@@ -101,22 +103,42 @@ function sendFiles(connection, filenames) {
 //  names - names of files to write
 //  map - collection of filenames and its data
 //
-function downloadFiles(names, map) {
-  names.forEach(name => {
-    if (map.has(name)) {
-      const path = './downloads/' + name;
-      const data = map.get(name);
-      const buffer = objToBuffer(data);
-      if (isImage(name)) {
-        fs.writeFile(path, buffer, (err) => {
-          if (err) console.error(err.message);
-        });
-      } else {
-        fs.writeFile(path, buffer, 'utf8', (err) => {
-          if (err) console.error(err.message);
-        });
-      }
-    } else console.error('ERROR: No such file recieved');
+function downloadFile(name, data) {
+  const path = './downloads/' + name;
+  const buffer = objToBuffer(data);
+
+  console.log(`${buffer.length} B`);
+
+  if (isImage(name)) {
+    fs.writeFile(path, buffer, (err) => {
+      if (err) console.error(err.message);
+    });
+  } else {
+    fs.writeFile(path, buffer, 'utf8', (err) => {
+      if (err) console.error(err.message);
+    });
+  }
+}
+
+
+function requestForFiles(connection, names) {
+
+  const requestForFile = (name) => (data, callback) => connection.callMethod(
+    'clientInterface', 'catchFile', [name], (err) => {
+      if (err) console.error(err.message);
+      callback(null);
+    }
+  );
+
+  const sequence = [];
+
+  names.forEach(name => sequence.push(requestForFile(name)));
+
+  console.log(sequence);
+  const flow = metasync(sequence);
+  flow({}, (err) => {
+    if (err) console.error(err);
+    console.log('files ' + names + ' requested');
   });
 }
 
@@ -132,30 +154,9 @@ function isImage(filename) {
   else return false;
 }
 
-
-
-//  Add recieved file to appropriate collection
-//
-//  file - recieved file
-//  map - collection to add to
-//
-function addFileToList(file, map) {
-  const name = file[0];
-  const data = file[1];
-  const buffer = objToBuffer(data);
-  console.log('file ' + name + ' recieved');
-  if (map.has(name)) {
-    const prevObj = map.get(name);
-    const prevBuffer = objToBuffer(prevObj);
-    const totalLength = buffer.length + prevBuffer.length;
-    const bufferConcat = Buffer.concat([prevBuffer, buffer], totalLength);
-    map.set(name, bufferConcat);
-  } else map.set(name, data);
-}
-
 module.exports = {
   sendFiles,
-  showList,
-  downloadFiles,
-  addFileToList
+  // showList,
+  downloadFile,
+  requestForFiles
 };

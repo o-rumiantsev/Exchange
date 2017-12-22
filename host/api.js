@@ -6,32 +6,40 @@ const api = {};
 
 api.name = 'chat';
 api.connections = new Set();
-
+api.files = new Map();
 
 function messager(connection, username, msg, callback) {
   msg = `${username}: ${msg}`;
   api.connections.forEach(conn => {
     if (conn !== connection) {
-      conn.emitRemoteEvent(
-        'clientInterface', 'msg', msg
-      );
+      conn.emitRemoteEvent(null, 'msg', msg);
     }
   });
   callback(null);
 }
 
 
-function catchFile(connection, name, data, callback) {
-  console.log('cought', name);
-  const file = [name, data];
-
-  api.connections.forEach(conn => {
-    conn.emitRemoteEvent('clientInterface', 'file', file)
-  });
-
+function shareFile(connection, name, callback) {
+  const data = api.files.get(name);
+  connection.emitRemoteEvent(null, 'file', [name, data]);
+  console.log('shared', name);
   callback(null);
 }
 
+
+function catchFile(connection, name, data, callback) {
+  console.log('cought', name);
+  console.log(Object.keys(data).length);
+  api.files.set(name, data);
+  connection.emitRemoteEvent(null, 'new file', name);
+  callback(null);
+}
+
+/*
+function list(connection, callback) {
+  callback(null, api.files);
+}
+*/
 
 function connectionListener(connection, callback) {
   console.log('incomming connection');
@@ -50,8 +58,10 @@ function close(connection, callback) {
 api.interfaces = {
   clientInterface: {
     messager,
-    connectionListener,
+    shareFile,
     catchFile,
+    // list,
+    connectionListener,
     close
   }
 };
