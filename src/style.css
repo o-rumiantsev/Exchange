@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.msgContainer {
+  margin: 0;
+  padding-left: 10px;
+}
+
+
+.recieved {
+  position: relative;
+  margin: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  height: auto;
+  width: 10%;
+  border-radius: 5px;
+  background-color: #CEF2EC;
+  color: #5A6567;
+  font-size: 25;
+  font-family: Arial;
+}
+
+
+.written {
+  position: relative;
+  margin: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  left: 89%;
+  height: auto;
+  width: 10%;
+  border-radius: 5px;
+  background-color: #DFF5F9;
+  color: #5A6567;
+  font-size: 25;
+  font-family: Arial;
+}
+
+#chat {
+  height: 80%;
+  width: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+#input {
+  position: relative;
+  margin-top: 10px;
+  height: 40%;
+  width: 30%;
+  border: 0px;
+  border-radius: 5px;
+  background-color: #DDE1E5;
+  color: #2E373F;
+  font-size: 20;
+  font-family: Arial;
+  text-indent: 5px;
+  outline: none;
+}
+
+
+#username {
+  position: relative;
+  margin-top: 15px;
+  height: 30%;
+  width: 10%;
+  border: 0px;
+  border-radius: 5px;
+  background-color: #DDE1E5;
+  color: #2E373F;
+  font-size: 18;
+  font-family: Arial;
+  text-align: center;
+  outline: none;
+}
+
+
+#status {
+  padding-left: 10px;
+  height: 5%;
+  font-size: 20;
+  font-style: Arial;
+}
+
+
+#textplace {
+  margin: 0;
+  padding-left: 10px;
+  height: 15%;
+  background-color: #46535E;
+}
