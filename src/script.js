@@ -9,6 +9,7 @@ input.focus();
 input.addEventListener('keydown', (event) => {
   if (event.keyCode === 13) {
     const data = input.value;
+    if (data === '') return;
     const msg = `${username}:<br>${data}`;
     input.value = '';
     write(msg);
@@ -17,7 +18,7 @@ input.addEventListener('keydown', (event) => {
 });
 
 function write(msg) {
-  if (msg === '') return;
+  if (msg === `${username}:<br>`) return;
   let line = document.createElement('div');
   line.setAttribute("class", "msgContainer");
   line.innerHTML = '<p class="written">' + msg + '</p>';

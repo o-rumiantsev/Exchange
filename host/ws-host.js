@@ -5,22 +5,40 @@ const http = require('http');
 const WebSocketServer = require('websocket').server;
 
 const index = fs.readFileSync('../src/index.html');
+const mindex = fs.readFileSync('../src/mindex.html');
 const style = fs.readFileSync('../src/style.css');
+const mstyle = fs.readFileSync('../src/mstyle.css');
 const script = fs.readFileSync('../src/script.js');
 
 const server = http.createServer((req, res) => {
-  switch (req.url) {
-    case '/style.css':
-      res.writeHead(200);
-      res.end(style);
-    break;
-    case '/script.js':
-      res.writeHead(200);
-      res.end(script);
-    break;
-    default:
-      res.writeHead(200);
-      res.end(index);
+  if (isMobile(req)) {
+    switch (req.url) {
+      case '/mstyle.css':
+        res.writeHead(200);
+        res.end(mstyle);
+      break;
+      case '/script.js':
+        res.writeHead(200);
+        res.end(script);
+      break;
+      default:
+        res.writeHead(200);
+        res.end(mindex);
+    }
+  } else {
+    switch (req.url) {
+      case '/style.css':
+        res.writeHead(200);
+        res.end(style);
+      break;
+      case '/script.js':
+        res.writeHead(200);
+        res.end(script);
+      break;
+      default:
+        res.writeHead(200);
+        res.end(index);
+    }
   }
 });
 
@@ -34,8 +52,12 @@ const ws = new WebSocketServer({
 const connections = [];
 const history = [];
 
-ws.on('request', (req) => {
+function isMobile(req) {
+  const mobile = req.headers['user-agent'].includes('Mobile');;
+  return mobile;
+}
 
+ws.on('request', (req) => {
   const connection = req.accept('', req.origin);
   connections.push(connection);
   console.log('Conndected', connection.remoteAddress);

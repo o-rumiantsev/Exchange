@@ -3,6 +3,7 @@ body {
   padding: 0;
 }
 
+
 .msgContainer {
   margin: 0;
   padding-left: 10px;
@@ -16,11 +17,11 @@ body {
   padding-bottom: 10px;
   padding-left: 10px;
   height: auto;
-  width: 10%;
-  border-radius: 5px;
+  width: 40%;
+  border-radius: 10px;
   background-color: #CEF2EC;
   color: #5A6567;
-  font-size: 25;
+  font-size: 60;
   font-family: Arial;
 }
 
@@ -31,36 +32,50 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 10px;
-  left: 89%;
+  left: 57%;
   height: auto;
-  width: 10%;
-  border-radius: 5px;
+  width: auto;
+  width: 40%;
+  border-radius: 10px;
   background-color: #DFF5F9;
   color: #5A6567;
-  font-size: 25;
+  font-size: 60;
   font-family: Arial;
 }
 
+
 #chat {
-  height: 80%;
+  position: absolute;
+  margin: 0;
+  top: 5%;
+  bottom: 170px;
+  height: auto;
   width: 100%;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
 
+
 #input {
-  position: relative;
-  margin-top: 10px;
-  height: 40%;
-  width: 30%;
+  position: absolute;
+  margin: 10px;
+  bottom: 0;
+  left: 10%;
+  height: 150px;
+  width: 80%;
   border: 0px;
   border-radius: 5px;
-  background-color: #DDE1E5;
-  color: #2E373F;
-  font-size: 20;
+  background-color: #646E78;
+  color: #CDD4DB;
+  font-size: 50;
   font-family: Arial;
   text-indent: 5px;
   outline: none;
+}
+
+
+#input::placeholder {
+  color: #989FA6;
 }
 
 
@@ -73,8 +88,10 @@ body {
 
 
 #textplace {
+  position: absolute;
   margin: 0;
-  padding-left: 10px;
-  height: 15%;
-  background-color: #46535E;
+  bottom: 0;
+  height: 170px;
+  width: 100%;
+  background-color: #646E78;
 }
