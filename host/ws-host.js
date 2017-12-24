@@ -42,7 +42,9 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(80, '192.168.43.44');
+server.listen(80, '0.0.0.0', () => {
+  console.log(server.address());
+});
 
 const ws = new WebSocketServer({
   httpServer: server,

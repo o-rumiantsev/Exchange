@@ -38,7 +38,7 @@ function changeStatus(newStatus) {
   status.innerHTML = '<p>' + newStatus + '</p>'
 }
 
-const ws = new WebSocket('ws://192.168.43.44/chat');
+const ws = new WebSocket('ws://35.189.111.33/chat');
 
 ws.onopen = () => {
   changeStatus('Online');
