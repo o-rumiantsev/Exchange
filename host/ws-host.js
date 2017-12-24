@@ -49,7 +49,7 @@ const ws = new WebSocketServer({
   autoAcceptConnections: false
 });
 
-const connections = [];
+const connections = new Set();
 const history = [];
 
 function isMobile(req) {
@@ -59,7 +59,7 @@ function isMobile(req) {
 
 ws.on('request', (req) => {
   const connection = req.accept('', req.origin);
-  connections.push(connection);
+  connections.add(connection);
   console.log('Conndected', connection.remoteAddress);
 
   for (const msg of history) connection.send(msg);
@@ -77,6 +77,7 @@ ws.on('request', (req) => {
 
   connection.on('close', () => {
     console.log('Disconndected', connection.remoteAddress);
-    if (connections.length === 0) history.splice();
+    connections.delete(connection);
+    if (connections.size === 0) history.splice(0);
   })
 });
