@@ -35,10 +35,14 @@ function recieve(msg) {
 }
 
 function changeStatus(newStatus) {
-  status.innerHTML = '<p>' + newStatus + '</p>'
+  status.innerHTML = '<p id="statusValue">' + newStatus + '</p>'
 }
 
+<<<<<<< 7925420d10ecf453f84675af2388c4774b90c34d
 const ws = new WebSocket('ws://35.189.111.33/chat');
+=======
+const ws = new WebSocket('ws://192.168.0.105/chat');
+>>>>>>> Styled status bar
 
 ws.onopen = () => {
   changeStatus('Online');

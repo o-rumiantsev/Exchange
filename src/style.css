@@ -65,10 +65,18 @@ body {
 
 
 #status {
-  padding-left: 10px;
   height: 5%;
+  background-color: #46535E;
+  color: #DDE1E5;
   font-size: 20;
   font-style: Arial;
+  text-align: center;
+}
+
+
+#statusValue {
+  position: relative;
+  top: 20%;
 }
 
 
