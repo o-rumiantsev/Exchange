@@ -42,17 +42,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
-<<<<<<< df64bdd6eda62580ebc416bbbc3ba1d46088a132
-<<<<<<< 7925420d10ecf453f84675af2388c4774b90c34d
-server.listen(80, '0.0.0.0', () => {
-  console.log(server.address());
-});
-=======
-server.listen(80, '192.168.0.105');
->>>>>>> Styled status bar
-=======
 server.listen(80, '0.0.0.0');
->>>>>>> Adapted to start on VM
 
 const ws = new WebSocketServer({
   httpServer: server,
