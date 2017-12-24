@@ -1,4 +1,25 @@
-const username = prompt('Enter your username');
+const ws = new WebSocket('ws://35.189.111.33/chat');
+
+ws.onopen = () => {
+  changeStatus('Online');
+  ws.send(`${username} connected`);
+};
+
+ws.onclose = () => {
+  changeStatus('Waiting for connection...');
+  write = null;
+};
+
+ws.onmessage = (event) => {
+  if (event.data.startsWith(username)) write(event.data);
+  else recieve(event.data);
+};
+
+let username = '';
+
+while (username === '') {
+ username = prompt('Enter your username');
+}
 
 let chat = document.getElementById('chat'),
     status = document.getElementById('status'),
@@ -19,17 +40,32 @@ input.addEventListener('keydown', (event) => {
 
 function write(msg) {
   if (msg === `${username}:<br>`) return;
+
   let line = document.createElement('div');
-  line.setAttribute("class", "msgContainer");
-  line.innerHTML = '<p class="written">' + msg + '</p>';
+
+  if (msg === `${username} connected`) {
+    line.setAttribute("class", "connectionMsgContainer");
+    line.innerHTML = '<p class="connectionMsg">' + msg + '</p>';
+  } else {
+    line.setAttribute("class", "msgContainerWritten");
+    line.innerHTML = '<p class="written">' + msg + '</p>';
+  }
+
   chat.appendChild(line);
   chat.scrollTop = chat.scrollHeight;
 }
 
 function recieve(msg) {
   let line = document.createElement('div');
-  line.setAttribute("class", "msgContainer");
-  line.innerHTML = '<p class="recieved">' + msg + '</p>';
+
+  if (msg.endsWith('connected')) {
+    line.setAttribute("class", "connectionMsgContainer");
+    line.innerHTML = '<p class="connectionMsg">' + msg + '</p>';
+  } else {
+    line.setAttribute("class", "msgContainer");
+    line.innerHTML = '<p class="recieved">' + msg + '</p>';
+  }
+
   chat.appendChild(line);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -37,18 +73,3 @@ function recieve(msg) {
 function changeStatus(newStatus) {
   status.innerHTML = '<p id="statusValue">' + newStatus + '</p>'
 }
-
-const ws = new WebSocket('ws://35.189.111.33/chat');
-
-ws.onopen = () => {
-  changeStatus('Online');
-};
-
-ws.onclose = () => {
-  changeStatus('Waiting for connection...');
-  write = null;
-};
-
-ws.onmessage = (event) => {
-  recieve(event.data);
-};

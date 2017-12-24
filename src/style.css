@@ -3,20 +3,29 @@ body {
   padding: 0;
 }
 
-.msgContainer {
+.msgContainer, .msgContainerWritten, .connectionMsgContainer {
   margin: 0;
   padding-left: 10px;
 }
 
 
+.msgContainerWritten {
+  text-align: right;
+}
+
+
+.connectionMsgContainer {
+  text-align: center;
+}
+
+
 .recieved {
-  position: relative;
+  display: inline-grid;
   margin: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding: 10px;
   height: auto;
-  width: 10%;
+  min-width: 10%;
+  max-width: 50%;
   border-radius: 5px;
   background-color: #CEF2EC;
   color: #5A6567;
@@ -26,20 +35,34 @@ body {
 
 
 .written {
-  position: relative;
+  display: inline-grid;
   margin: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  left: 89%;
+  padding: 10px;
   height: auto;
-  width: 10%;
+  min-width: 10%;
+  max-width: 50%;
   border-radius: 5px;
   background-color: #DFF5F9;
   color: #5A6567;
   font-size: 25;
   font-family: Arial;
 }
+
+
+.connectionMsg {
+  display: inline-grid;
+  margin: 5px;
+  padding: 10px;
+  min-width: 10%;
+  max-width: 50%;
+  border-radius: 5px;
+  background-color: #D6DDE3;
+  color: #273849;
+  font-size: 20;
+  font-family: Arial;
+  text-align: center;
+}
+
 
 #chat {
   height: 80%;
@@ -50,14 +73,14 @@ body {
 
 #input {
   position: relative;
-  margin-top: 10px;
-  height: 40%;
+  top: 20;
+  height: 60%;
   width: 30%;
   border: 0px;
   border-radius: 5px;
   background-color: #DDE1E5;
   color: #2E373F;
-  font-size: 20;
+  font-size: 25;
   font-family: Arial;
   text-indent: 5px;
   outline: none;
@@ -82,7 +105,6 @@ body {
 
 #textplace {
   margin: 0;
-  padding-left: 10px;
   height: 15%;
   background-color: #46535E;
 }

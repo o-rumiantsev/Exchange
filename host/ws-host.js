@@ -77,5 +77,6 @@ ws.on('request', (req) => {
 
   connection.on('close', () => {
     console.log('Disconndected', connection.remoteAddress);
+    if (connections.length === 0) history.splice();
   })
 });
